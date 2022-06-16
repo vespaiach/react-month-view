@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import Calendar from './src';
+import Calendar from './src/calendar';
 
 function App() {
     return <Calendar />;

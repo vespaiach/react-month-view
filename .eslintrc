@@ -23,5 +23,7 @@
             "version": "detect"
         }
     },
-    "rules": {}
+    "rules": {
+        "no-debugger": "warn"
+    }
 }
