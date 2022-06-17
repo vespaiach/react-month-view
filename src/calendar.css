@@ -1,3 +1,10 @@
+.c-container {
+    padding: 2.8rem;
+    background: rgb(255, 255, 255);
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column nowrap;
+}
 .c-sheet_head {
     font-weight: bold;
     text-align: center;
@@ -7,17 +14,20 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: 1fr repeat(5, 2fr);
+    height: 100%;
+    grid-gap: 0px;
 }
 .c-sheet_body--day {
     text-align: center;
     padding-bottom: 24px;
 }
 .c-sheet_body--date {
-    padding: 0;
+    padding: 0.8rem;
     margin: 0;
     background: none;
     border: none;
     outline: none;
     display: flex;
     flex-flow: column nowrap;
+    outline: 1px solid black
 }

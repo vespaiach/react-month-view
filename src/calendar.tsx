@@ -24,7 +24,7 @@ export default function Calendar({ className, start = new Date() }: CalendarProp
     }, [startDate, setStartDate]);
 
     return (
-        <div className={cx(className)}>
+        <div className={cx('c-container', className)}>
             <div>
                 <button onClick={prevHandler}>Prev</button>
                 <button onClick={nextHandler}>Next</button>
@@ -65,8 +65,10 @@ function Sheet({ month, year }: SheetProps) {
                     tabIndex={start.getMonth() !== month ? -1 : undefined}
                     key={start.getTime()}
                     data-dt={`${start.getFullYear()}/${start.getMonth()}/${start.getDate()}`}>
-                    {start.getDate()}
-                    {start.getDate() === 1 ? <div>{MONTHS[start.getMonth()]}</div> : null}
+                    <span className="c-sheet_body--date-number">{start.getDate()}</span>
+                    {start.getDate() === 1 ? (
+                        <span className="c-sheet_body--date-month">{MONTHS[start.getMonth()]}</span>
+                    ) : null}
                 </button>,
             );
 
