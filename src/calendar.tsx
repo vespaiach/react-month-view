@@ -14,29 +14,22 @@ interface CalendarProps {
     animationDuration?: number;
 }
 
-export default function Calendar({ animationDuration = 800, className, start = new Date() }: CalendarProps) {
+export default function Calendar({ animationDuration = 600, className, start = new Date() }: CalendarProps) {
     const [dates, setDates] = useState<Array<MonthData>>([
         { date: new Date(start.getFullYear(), start.getMonth(), 1), index: 0 },
     ]);
 
     const nextHandler = useCallback(() => {
-        const visible = dates.find((dt) => dt.index === 0);
-        if (visible) {
-            setDates([
-                visible,
-                { date: addMonth(visible.date, 1), index: 1 },
-                { date: addMonth(visible.date, 2), index: 2 },
-                { date: addMonth(visible.date, 3), index: 3 },
-            ]);
+        const currMonth = dates.find((dt) => dt.index === 0);
+        if (currMonth) {
+            setDates(generateMonthList(currMonth.date, addMonth(currMonth.date, 1)));
         }
     }, [dates, setDates]);
 
     const prevHandler = useCallback(() => {
-        const visible = dates.find((dt) => dt.index === 0);
-        if (visible) {
-            const prev = new Date(visible.date);
-            prev.setMonth(prev.getMonth() - 1);
-            setDates([visible, { date: prev, index: -1 }]);
+        const currMonth = dates.find((dt) => dt.index === 0);
+        if (currMonth) {
+            setDates(generateMonthList(currMonth.date, addMonth(currMonth.date, -1)));
         }
     }, [dates, setDates]);
 
@@ -45,28 +38,11 @@ export default function Calendar({ animationDuration = 800, className, start = n
     }, [setDates]);
 
     useEffect(() => {
-        const visible = dates.find((dt) => dt.index === 0);
-        if (visible) {
-            const diff = diffMonth(visible.date, start);
-            const sign = diff >= 0 ? 1 : -1;
-            if (Math.abs(diff) > 3) {
-                setDates([
-                    visible,
-                    { date: addMonth(start, sign * 1), index: sign * 1 },
-                    { date: addMonth(start, sign * 2), index: sign * 2 },
-                    { date: addMonth(start, sign * 3), index: sign * 3 },
-                ]);
-            } else {
-                for (let i = 0; i < diff; i++) {}
-                setDates([
-                    visible,
-                    { date: addMonth(visible.date, sign * 1), index: sign * 1 },
-                    { date: addMonth(start, sign * 2), index: sign * 2 },
-                    { date: addMonth(start, sign * 3), index: sign * 3 },
-                ]);
-            }
+        const currMonth = dates.find((dt) => dt.index === 0);
+        if (currMonth) {
+            setDates(generateMonthList(currMonth.date, start));
         }
-    }, [start]);
+    }, [start.getFullYear(), start.getMonth(), start.getDate()]);
 
     const viewportStyle = useMemo(() => {
         return {
@@ -103,18 +79,15 @@ export default function Calendar({ animationDuration = 800, className, start = n
 
 function generateMonthList(from: Date, to: Date): MonthData[] {
     const diff = diffMonth(from, to);
+    const last = Math.min(Math.abs(diff), 3);
+
     const result: MonthData[] = [{ date: from, index: 0 }];
-    if (diff > 3) {
-        for (let i = 1; i <= 3; i++) {
-            result.push({ date: addMonth(to, 3 - i), index: i });
-        }
-    } else if (diff >= 0) {
-        for (let i = 1; i <= diff; i++) {
-            result.push({ date: addMonth(from, i), index: i });
-        }
-    } else if (diff > -3) {
-        for (let i = 1; i <= Math.abs(diff); i++) {
-            result.push({ date: addMonth(to, 3-i), index: i });
+
+    for (let i = 1; i <= last; i++) {
+        if (diff >= 0) {
+            result.push({ date: addMonth(to, i - last), index: i });
+        } else {
+            result.push({ date: addMonth(to, last - i), index: -i });
         }
     }
 
@@ -197,7 +170,7 @@ const Sheet = React.forwardRef<HTMLDivElement, SheetProps>(function SheetCompone
                         <button onClick={onNext}>Next</button>
                     </div>
                 ) : null}
-                {MONTHS[month]}
+                {MONTHS[month]} {year}
             </div>
             <div className="c-sheet_body">
                 {DAYS.map((name, i) => (

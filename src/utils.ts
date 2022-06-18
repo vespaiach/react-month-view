@@ -8,12 +8,12 @@ export function addMonth(dt: Date, month: number) {
     return next;
 }
 
-export function diffMonth(fromMonth: Date, toMonth: Date) {
-    return (
-        (Math.abs(toMonth.getFullYear() - fromMonth.getFullYear()) * 12 +
-            Math.abs(toMonth.getMonth() - fromMonth.getMonth())) *
-        (toMonth >= fromMonth ? 1 : -1)
-    );
+export function diffMonth(fromMonth: Date, toMonth: Date): number {
+    if (fromMonth > toMonth) {
+        return diffMonth(toMonth, fromMonth);
+    }
+
+    return (toMonth.getFullYear() - fromMonth.getFullYear()) * 12 + toMonth.getMonth() - fromMonth.getMonth();
 }
 
 export const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
