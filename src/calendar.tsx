@@ -1,47 +1,124 @@
 import './calendar.css';
 
-import React, { useCallback, useMemo, useState } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { cx, DAYS, MONTHS } from './utils';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { addMonth, cx, DAYS, diffMonth, MONTHS } from './utils';
+
+interface MonthData {
+    date: Date;
+    index: number;
+}
 
 interface CalendarProps {
     className?: string;
     start?: Date;
+    animationDuration?: number;
 }
 
-export default function Calendar({ className, start = new Date() }: CalendarProps) {
-    const [startDate, setStartDate] = useState([new Date(start.getFullYear(), start.getMonth(), 1)]);
-    const [direction, setDirection] = useState('to-left');
+export default function Calendar({ animationDuration = 800, className, start = new Date() }: CalendarProps) {
+    const [dates, setDates] = useState<Array<MonthData>>([
+        { date: new Date(start.getFullYear(), start.getMonth(), 1), index: 0 },
+    ]);
 
     const nextHandler = useCallback(() => {
-        const dt = new Date(startDate[0]);
-        dt.setMonth(dt.getMonth() + 1);
-        setStartDate([dt]);
-        setDirection('to-left');
-    }, [startDate, setStartDate]);
+        const visible = dates.find((dt) => dt.index === 0);
+        if (visible) {
+            setDates([
+                visible,
+                { date: addMonth(visible.date, 1), index: 1 },
+                { date: addMonth(visible.date, 2), index: 2 },
+                { date: addMonth(visible.date, 3), index: 3 },
+            ]);
+        }
+    }, [dates, setDates]);
 
     const prevHandler = useCallback(() => {
-        const dt = new Date(startDate[0]);
-        dt.setMonth(dt.getMonth() - 1);
-        setStartDate([dt]);
-        setDirection('to-right');
-    }, [startDate, setStartDate]);
+        const visible = dates.find((dt) => dt.index === 0);
+        if (visible) {
+            const prev = new Date(visible.date);
+            prev.setMonth(prev.getMonth() - 1);
+            setDates([visible, { date: prev, index: -1 }]);
+        }
+    }, [dates, setDates]);
+
+    const handleTransitionEnd = useCallback(() => {
+        setDates((dates) => [{ ...dates[dates.length - 1], index: 0 }]);
+    }, [setDates]);
+
+    useEffect(() => {
+        const visible = dates.find((dt) => dt.index === 0);
+        if (visible) {
+            const diff = diffMonth(visible.date, start);
+            const sign = diff >= 0 ? 1 : -1;
+            if (Math.abs(diff) > 3) {
+                setDates([
+                    visible,
+                    { date: addMonth(start, sign * 1), index: sign * 1 },
+                    { date: addMonth(start, sign * 2), index: sign * 2 },
+                    { date: addMonth(start, sign * 3), index: sign * 3 },
+                ]);
+            } else {
+                for (let i = 0; i < diff; i++) {}
+                setDates([
+                    visible,
+                    { date: addMonth(visible.date, sign * 1), index: sign * 1 },
+                    { date: addMonth(start, sign * 2), index: sign * 2 },
+                    { date: addMonth(start, sign * 3), index: sign * 3 },
+                ]);
+            }
+        }
+    }, [start]);
+
+    const viewportStyle = useMemo(() => {
+        return {
+            '--calendar-animation-duration': `${animationDuration}ms`,
+        } as React.CSSProperties;
+    }, [animationDuration]);
+
+    let containerStyle = undefined;
+    if (dates.length > 1) {
+        const direction = dates[dates.length - 1].index > 0 ? -1 : 1;
+        containerStyle = {
+            transform: `translate3d(${(dates.length - 1) * direction * 100}%,0,0)`,
+            transition: 'transform ease-out var(--calendar-animation-duration)',
+        };
+    }
 
     return (
-        <div className={cx('c-container', className, direction)}>
-            <div>
-                <button onClick={prevHandler}>Prev</button>
-                <button onClick={nextHandler}>Next</button>
-            </div>
-            <TransitionGroup component={null}>
-                {startDate.map((dt) => (
-                    <CSSTransition key={dt.getTime()} timeout={50000} classNames="c-sheet--item">
-                        <Sheet month={dt.getMonth() as Month} year={dt.getFullYear()} />
-                    </CSSTransition>
+        <div className={cx('c-viewport', className)} style={viewportStyle}>
+            <div className="c-container" style={containerStyle} onTransitionEnd={handleTransitionEnd}>
+                {dates.map(({ date, index }) => (
+                    <Sheet
+                        index={index}
+                        key={date.toDateString()}
+                        month={date.getMonth() as Month}
+                        year={date.getFullYear()}
+                        onNext={index === 0 ? nextHandler : undefined}
+                        onPrev={index === 0 ? prevHandler : undefined}
+                    />
                 ))}
-            </TransitionGroup>
+            </div>
         </div>
     );
+}
+
+function generateMonthList(from: Date, to: Date): MonthData[] {
+    const diff = diffMonth(from, to);
+    const result: MonthData[] = [{ date: from, index: 0 }];
+    if (diff > 3) {
+        for (let i = 1; i <= 3; i++) {
+            result.push({ date: addMonth(to, 3 - i), index: i });
+        }
+    } else if (diff >= 0) {
+        for (let i = 1; i <= diff; i++) {
+            result.push({ date: addMonth(from, i), index: i });
+        }
+    } else if (diff > -3) {
+        for (let i = 1; i <= Math.abs(diff); i++) {
+            result.push({ date: addMonth(to, 3-i), index: i });
+        }
+    }
+
+    return result;
 }
 
 type Month = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
@@ -49,9 +126,16 @@ type Month = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 interface SheetProps {
     month: Month;
     year: number;
+    style?: React.CSSProperties;
+    index: number;
+    onPrev?: React.MouseEventHandler<HTMLButtonElement>;
+    onNext?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function Sheet({ month, year }: SheetProps) {
+const Sheet = React.forwardRef<HTMLDivElement, SheetProps>(function SheetComponent(
+    { month, year, style, index, onPrev, onNext },
+    ref,
+) {
     const today = new Date();
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
@@ -68,8 +152,9 @@ function Sheet({ month, year }: SheetProps) {
         }
 
         const els = [];
-        let count = 1;
-        while (count <= 42) {
+        let count = 0;
+        while (start < nextMonth || count % 7 > 0) {
+            count++;
             const isToday =
                 start.getFullYear() === currentYear &&
                 start.getMonth() === currentMonth &&
@@ -98,15 +183,22 @@ function Sheet({ month, year }: SheetProps) {
             );
 
             start.setDate(start.getDate() + 1);
-            count++;
         }
 
         return els;
     }, [month, year, currentYear, currentMonth, currentDate]);
 
     return (
-        <div className="c-sheet">
-            <div className="c-sheet_head">{MONTHS[month]}</div>
+        <div style={style} className={cx('c-sheet', `c-sheet-${index}`)} ref={ref}>
+            <div className="c-sheet_head">
+                {index === 0 ? (
+                    <div className="c-sheet_head--buttons">
+                        <button onClick={onPrev}>Prev</button>
+                        <button onClick={onNext}>Next</button>
+                    </div>
+                ) : null}
+                {MONTHS[month]}
+            </div>
             <div className="c-sheet_body">
                 {DAYS.map((name, i) => (
                     <div
@@ -119,4 +211,4 @@ function Sheet({ month, year }: SheetProps) {
             </div>
         </div>
     );
-}
+});

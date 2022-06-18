@@ -1,40 +1,42 @@
-.c-container {
+.c-viewport {
     --calendar-grid-line-color: #f0f0f0;
     --calendar-font-color: #525156;
     --calendar-font-color-gray-out: #bec2c7;
     --calendar-day-font-color: #b3b4bb;
 
-    padding: 2.8rem;
     background: rgb(255, 255, 255);
     box-sizing: border-box;
-    display: flex;
-    flex-flow: column nowrap;
     font-family: 'Courier New', Courier, monospace;
     height: 100%;
     color: var(--calendar-font-color);
     overflow: hidden;
 }
-.c-container * {
+.c-viewport * {
     box-sizing: border-box;
 }
-.c-container .c-sheet_body--date-gray-out {
+.c-viewport .c-sheet_body--date-gray-out {
     color: var(--calendar-font-color-gray-out);
 }
+.c-container {
+    height: 100%;
+}
 .c-sheet {
-    flex: 1;
+    padding: 2.8rem;
     display: flex;
     flex-flow: column nowrap;
-    transition: all 5000ms;
+    height: 100%;
+    min-height: var(--calendar-sheet-height);
 }
 .c-sheet_head {
     font-weight: bold;
     text-align: center;
     padding: 0.8rem 0 2rem 0;
+    position: relative;
 }
 .c-sheet_body {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 1fr repeat(6, 2fr);
+    grid-template-rows: 1fr repeat(5, 2fr);
     grid-gap: 1px;
     flex: 1;
 }
@@ -66,7 +68,6 @@
     padding: 0.2rem;
     position: relative;
 }
-
 .c-sheet_body--today .c-sheet_body--date-number::before,
 .c-sheet_body--today .c-sheet_body--date-number::after {
     width: 1.6rem;
@@ -85,20 +86,29 @@
     line-height: 1.6rem;
     color: white;
 }
+.c-sheet_head--buttons {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
 /**
  * Animation
  */
-.to-left .c-sheet--item-enter {
-    transform: translate3d(100%, 0%, 0);
+.c-sheet-1 {
+    transform: translate3d(100%, -100%, 0);
 }
-.to-left .c-sheet--item-enter-active {
-    transform: translate3d(0%, 0%, 0);
-    transition: transform 50000ms;
+.c-sheet-2 {
+    transform: translate3d(200%, -200%, 0);
 }
-.to-left .c-sheet--item-exit {
-    transform: translate3d(0%, -100%, 0);
+.c-sheet-3 {
+    transform: translate3d(300%, -300%, 0);
 }
-.to-left .c-sheet--item-exit-active {
+.c-sheet--1 {
     transform: translate3d(-100%, -100%, 0);
-    transition: transform 50000ms;
+}
+.c-sheet--2 {
+    transform: translate3d(-200%, -200%, 0);
+}
+.c-sheet--3 {
+    transform: translate3d(-300%, -300%, 0);
 }
