@@ -3,3 +3,6 @@ body {
     margin: 0;
     background: #f3f6f9;
 }
+#app {
+    height: 100vh;
+}
