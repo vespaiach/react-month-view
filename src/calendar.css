@@ -1,23 +1,115 @@
+.c-viewport {
+    --calendar-grid-line-color: #f0f0f0;
+    --calendar-font-color: #525156;
+    --calendar-font-color-gray-out: #bec2c7;
+    --calendar-day-font-color: #b3b4bb;
+
+    background: rgb(255, 255, 255);
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+    height: 100%;
+    color: var(--calendar-font-color);
+    overflow: hidden;
+}
+.c-viewport * {
+    box-sizing: border-box;
+}
+.c-viewport .c-sheet_body--date-gray-out {
+    color: var(--calendar-font-color-gray-out);
+}
+.c-container {
+    height: 100%;
+}
+.c-sheet {
+    padding: 2.8rem;
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    min-height: var(--calendar-sheet-height);
+}
 .c-sheet_head {
     font-weight: bold;
     text-align: center;
-    padding: 12px 0 24px 0;
+    padding: 0.8rem 0 2rem 0;
+    position: relative;
 }
 .c-sheet_body {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: 1fr repeat(5, 2fr);
+    grid-auto-rows: 2fr;
+    grid-gap: 1px;
+    flex: 1;
 }
 .c-sheet_body--day {
     text-align: center;
     padding-bottom: 24px;
+    border-right: 1px solid var(--calendar-grid-line-color);
+    color: var(--calendar-day-font-color);
+    font-size: smaller;
 }
 .c-sheet_body--date {
-    padding: 0;
+    padding: 1rem;
     margin: 0;
     background: none;
     border: none;
     outline: none;
     display: flex;
     flex-flow: column nowrap;
+    border-top: 1px solid var(--calendar-grid-line-color);
+    border-right: 1px solid var(--calendar-grid-line-color);
+    color: inherit;
+    line-height: 1.2;
+}
+.c-sheet_body .c-sheet_body--date-far-right {
+    border-right: none;
+}
+.c-sheet_body--date-number {
+    font-size: larger;
+    padding: 0.2rem;
+    position: relative;
+}
+.c-sheet_body--today .c-sheet_body--date-number::before,
+.c-sheet_body--today .c-sheet_body--date-number::after {
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    position: absolute;
+    top: calc(50% - 0.8rem);
+    left: calc(50% - 0.8rem);
+    background: #bb889c;
+}
+.c-sheet_body--today .c-sheet_body--date-number::before {
+    content: '';
+}
+.c-sheet_body--today .c-sheet_body--date-number::after {
+    content: attr(data-date);
+    line-height: 1.6rem;
+    color: white;
+}
+.c-sheet_head--buttons {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+/**
+ * Animation
+ */
+.c-sheet-1 {
+    transform: translate3d(100%, -100%, 0);
+}
+.c-sheet-2 {
+    transform: translate3d(200%, -200%, 0);
+}
+.c-sheet-3 {
+    transform: translate3d(300%, -300%, 0);
+}
+.c-sheet--1 {
+    transform: translate3d(-100%, -100%, 0);
+}
+.c-sheet--2 {
+    transform: translate3d(-200%, -200%, 0);
+}
+.c-sheet--3 {
+    transform: translate3d(-300%, -300%, 0);
 }
