@@ -20,7 +20,8 @@
         "dev": "vite",
         "style": "postcss -m --use autoprefixer --use postcss-minify -d dist ./src/*.css",
         "build": "npm run clean && microbundle --jsx React.createElement --css-modules false && npm run style",
-        "lint": "eslint src/**"
+        "lint": "eslint src/**",
+        "tw": "npx tailwindcss -i ./src/calendar.style -o ./src/calendar.css --watch"
     },
     "keywords": [
         "calendar",
@@ -42,9 +43,11 @@
         "eslint-plugin-react": "^7.30.0",
         "microbundle": "^0.15.0",
         "postcss": "^8.4.14",
+        "postcss-import": "^14.1.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "rimraf": "^3.0.2",
+        "tailwindcss": "^3.1.4",
         "typescript": "^4.7.3",
         "vite": "^2.9.12",
         "vite-plugin-eslint": "^1.6.1"
@@ -55,5 +58,11 @@
     "dependencies": {
         "react-transition-group": "^4.4.2",
         "styled-components": "^5.3.5"
+    },
+    "postcss": {
+        "plugins": {
+            "postcss-import": {},
+            "tailwindcss": {}
+        }
     }
 }
