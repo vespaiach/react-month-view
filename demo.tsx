@@ -1,10 +1,10 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import Calendar from './src/calendar';
+import MonthView from './src/MonthView';
 
 function App() {
-    return <Calendar />;
+    return <MonthView month={5} year={2022} />;
 }
 const container = document.getElementById('app');
 
