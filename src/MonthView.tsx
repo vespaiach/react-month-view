@@ -8,7 +8,7 @@ import { cx, dateToString, dateToTime, DAYS as DEFAULT_DAYS, MONTHS as DEFAULT_M
 interface MonthViewProps {
     month: MonthNum;
     year: number;
-    onClick?: (date: Date, evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onClick?: (date: Date, events: EventType[], evt: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     DateComponent?: typeof DateButton;
     style?: React.CSSProperties;
     className?: string;
@@ -76,7 +76,7 @@ const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(function Mont
                     )}
                     tabIndex={start.getMonth() !== month ? -1 : undefined}
                     key={start.getTime()}
-                    onClick={(evt) => void onClick?.(new Date(start), evt)}>
+                    onClick={(evt) => void onClick?.(new Date(start), dateEvents, evt)}>
                     {start.getDate() === 1 ? (
                         <div className="text-left">{MONTHS[start.getMonth()]}</div>
                     ) : null}
@@ -149,7 +149,7 @@ const DateButton = React.forwardRef<HTMLButtonElement, DateComponentProps>(funct
                     <span>{date.getDate()}</span>
                 </div>
             ) : (
-                <span className='text-left'>{date.getDate()}</span>
+                <span className="text-left">{date.getDate()}</span>
             )}
             {children}
         </button>

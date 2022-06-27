@@ -1,27 +1,24 @@
 {
     "name": "calendar_ui",
     "version": "1.0.0",
-    "source": "src/calendar.tsx",
-    "main": "dist/calendar.js",
-    "module": "dist/calendar.esm.js",
-    "umd:main": "dist/calendar.umd.js",
-    "unpkg": "dist/calendar.umd.js",
+    "source": "src/index.ts",
+    "main": "dist/index.js",
+    "module": "dist/index.esm.js",
+    "umd:main": "dist/index.umd.js",
+    "unpkg": "dist/index.umd.js",
     "exports": {
         ".": {
-            "require": "./dist/calendar.js",
-            "import": "./dist/calendar.esm.js",
-            "umd": "./dist/calendar.umd.js"
+            "require": "./dist/index.js",
+            "import": "./dist/index.esm.js",
+            "umd": "./dist/index.umd.js"
         },
-        "./package.json": "./package.json",
-        "./dist/calendar.css": "./dist/calendar.css"
+        "./package.json": "./package.json"
     },
     "scripts": {
         "clean": "rimraf dist",
         "dev": "vite",
-        "style": "postcss -m --use autoprefixer --use postcss-minify -d dist ./src/*.css",
-        "build": "npm run clean && microbundle --jsx React.createElement --css-modules false && npm run style",
-        "lint": "eslint src/**",
-        "tw": "npx tailwindcss -i ./src/calendar.style -o ./src/calendar.css --watch"
+        "build": "npm run clean && microbundle --jsx React.createElement --css-modules false",
+        "lint": "eslint src/**"
     },
     "keywords": [
         "calendar",
@@ -50,14 +47,11 @@
         "tailwindcss": "^3.1.4",
         "typescript": "^4.7.3",
         "vite": "^2.9.12",
-        "vite-plugin-eslint": "^1.6.1"
+        "vite-plugin-eslint": "^1.6.1",
+        "react-transition-group": "^4.4.2"
     },
     "peerDependencies": {
         "react": ">=17.0.0"
-    },
-    "dependencies": {
-        "react-transition-group": "^4.4.2",
-        "styled-components": "^5.3.5"
     },
     "postcss": {
         "plugins": {
@@ -68,14 +62,14 @@
                 ],
                 "theme": {
                     "colors": {
-                        "line": "rgb(var(--color-line) / <alpha-value>)",
-                        "sheet": "rgb(var(--color-background) / <alpha-value>)",
-                        "dimmed-text": "rgb(var(--color-dimmed-text) / <alpha-value>)",
-                        "grayed-out": "rgb(var(--color-dimmed-text) / 0.7)",
-                        "today": "rgb(var(--color-today) / <alpha-value>)",
-                        "light-text": "rgb(var(--color-light-text) / <alpha-value>)",
-                        "normal-text": "rgb(var(--color-normal-text) / <alpha-value>)",
-                        "event-dot": "rgb(var(--color-event-dot) / <alpha-value>)"
+                        "line": "rgb(var(--mv-color-grid-line) / <alpha-value>)",
+                        "sheet": "rgb(var(--mv-color-background) / <alpha-value>)",
+                        "dimmed-text": "rgb(var(--mv-color-dimmed-text) / <alpha-value>)",
+                        "grayed-out": "rgb(var(--mv-color-dimmed-text) / 0.7)",
+                        "today": "rgb(var(--mv-color-today-circle) / <alpha-value>)",
+                        "light-text": "rgb(var(--mv-color-light-text) / <alpha-value>)",
+                        "normal-text": "rgb(var(--mv-color-normal-text) / <alpha-value>)",
+                        "event-dot": "rgb(var(--mv-color-event-dot) / <alpha-value>)"
                     },
                     "extend": {
                         "fontFamily": {
