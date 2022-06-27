@@ -27,7 +27,7 @@ interface MonthViewProps {
     };
 }
 
-const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(function MonthComponent(
+export const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(function MonthComponent(
     {
         month,
         year,
@@ -155,10 +155,7 @@ const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(function Mont
             ref={ref}>
             {DAYS.map((name, i) => (
                 <div
-                    className={cx(
-                        i < 6 && 'border-r border-r-line',
-                        'text-sm text-day text-center pt-2',
-                    )}
+                    className={cx(i < 6 && 'border-r border-r-line', 'text-sm text-day text-center pt-2')}
                     key={name}>
                     {name}
                 </div>
@@ -199,5 +196,3 @@ export const DateButton = React.forwardRef<HTMLButtonElement, DateComponentProps
         </button>
     );
 });
-
-export default MonthView;

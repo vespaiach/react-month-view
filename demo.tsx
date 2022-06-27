@@ -1,7 +1,8 @@
+import 'tailwindcss/lib/css/preflight.css';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import MonthView from './src/MonthView';
+import { MonthView } from './src/MonthView';
 
 const dt = new Date();
 dt.setDate(dt.getDate() - 1);
