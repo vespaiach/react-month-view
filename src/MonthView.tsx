@@ -15,6 +15,16 @@ interface MonthViewProps {
     DAYS?: string[];
     MONTHS?: string[];
     events?: EventType[];
+    colors?: {
+        gridLine?: string;
+        sheetBackground?: string;
+        dayText?: string;
+        grayedOutText?: string;
+        normalText?: string;
+        lightText?: string;
+        todayCircle?: string;
+        eventListDot?: string;
+    };
 }
 
 const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(function MonthComponent(
@@ -28,6 +38,7 @@ const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(function Mont
         MONTHS = DEFAULT_MONTHS,
         DateComponent = DateButton,
         events,
+        colors,
     },
     ref,
 ) {
@@ -84,7 +95,7 @@ const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(function Mont
                         <p
                             key={i}
                             className={cx(
-                                'w-full relative truncate text-xs text-dimmed-text pl-4 before:content-["*"]  before:text-xl before:absolute before:-top-1 before:left-0',
+                                'w-full relative truncate text-xs text-grayed-out pl-4 before:content-["*"]  before:text-xl before:absolute before:-top-1 before:left-0',
                                 i === 0 ? 'mt-3' : 'mt-1',
                                 start > curr && 'before:text-event-dot',
                             )}>
@@ -101,11 +112,44 @@ const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(function Mont
         return els;
     }, [month, year, onClick, currentDateString, eventsByStartDate]);
 
+    const computedStyle = useMemo(() => {
+        if (!colors || !Object.keys(colors).length) return style;
+
+        const st: Record<string, unknown> = {};
+
+        if (colors.dayText) {
+            st['--mv-color-day-text'] = colors.dayText;
+        }
+        if (colors.eventListDot) {
+            st['--mv-color-event-dot'] = colors.eventListDot;
+        }
+        if (colors.grayedOutText) {
+            st['--mv-color-grayed-out-text'] = colors.grayedOutText;
+        }
+        if (colors.gridLine) {
+            st['--mv-color-grid-line'] = colors.gridLine;
+        }
+        if (colors.lightText) {
+            st['--mv-color-light-text'] = colors.lightText;
+        }
+        if (colors.normalText) {
+            st['--mv-color-normal-text'] = colors.normalText;
+        }
+        if (colors.sheetBackground) {
+            st['--mv-color-sheet-background'] = colors.sheetBackground;
+        }
+        if (colors.todayCircle) {
+            st['--mv-color-today-circle'] = colors.todayCircle;
+        }
+
+        return { ...st, ...(style || {}) } as React.CSSProperties;
+    }, [colors, style]);
+
     return (
         <div
-            style={style}
+            style={computedStyle}
             className={cx(
-                'bg-sheet grid grid-rows-[1fr_repeat(5,_2fr)] grid-cols-7 auto-rows-[2fr] h-full text-normal-text',
+                'bg-sheet grid grid-rows-[1fr_repeat(5,_2fr)] grid-cols-7 auto-rows-[2fr] h-full text-normal',
                 className,
             )}
             ref={ref}>
@@ -113,7 +157,7 @@ const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(function Mont
                 <div
                     className={cx(
                         i < 6 && 'border-r border-r-line',
-                        'text-sm text-dimmed-text text-center pt-2',
+                        'text-sm text-day text-center pt-2',
                     )}
                     key={name}>
                     {name}
@@ -133,7 +177,7 @@ interface DateComponentProps {
     children?: React.ReactNode;
 }
 
-const DateButton = React.forwardRef<HTMLButtonElement, DateComponentProps>(function DateComponent(
+export const DateButton = React.forwardRef<HTMLButtonElement, DateComponentProps>(function DateComponent(
     { date, className, tabIndex, standout, children, onClick },
     ref,
 ) {
@@ -145,7 +189,7 @@ const DateButton = React.forwardRef<HTMLButtonElement, DateComponentProps>(funct
             onClick={onClick}
             ref={ref}>
             {standout ? (
-                <div className="w-9 h-9 flex justify-center items-center rounded-full bg-today text-light-text -mt-2 -ml-2">
+                <div className="w-9 h-9 flex justify-center items-center rounded-full bg-today text-light -mt-2 -ml-2">
                     <span>{date.getDate()}</span>
                 </div>
             ) : (

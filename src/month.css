@@ -5,11 +5,12 @@
 @layer base {
     :root {
         --mv-color-grid-line: 240 240 240;
-        --mv-color-background: 256 256 256;
-        --mv-color-dimmed-text: 176 179 187;
+        --mv-color-sheet-background: 256 256 256;
+        --mv-color-event-dot: 4 212 208;
         --mv-color-today-circle: 240 167 196;
+        --mv-color-grayed-out-text: 176 179 187;
+        --mv-color-day-text: 176 179 187;
         --mv-color-light-text: 256 256 256;
         --mv-color-normal-text: 88 88 93;
-        --mv-color-event-dot: 4 212 208;
     }
 }

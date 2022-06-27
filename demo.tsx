@@ -18,9 +18,12 @@ const events = [
         title: 'Test 2 event with long title, yeah yeah.',
     },
 ];
+const colors = {
+    gridLine: '54 54 54',
+};
 
 function App() {
-    return <MonthView month={5} year={2022} events={events} />;
+    return <MonthView month={5} year={2022} events={events} colors={colors} />;
 }
 const container = document.getElementById('app');
 

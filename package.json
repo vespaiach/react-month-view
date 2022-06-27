@@ -1,16 +1,16 @@
 {
     "name": "calendar_ui",
     "version": "1.0.0",
-    "source": "src/index.ts",
-    "main": "dist/index.js",
-    "module": "dist/index.esm.js",
-    "umd:main": "dist/index.umd.js",
-    "unpkg": "dist/index.umd.js",
+    "source": "src/MonthView.tsx",
+    "main": "dist/MonthView.js",
+    "module": "dist/MonthView.esm.js",
+    "umd:main": "dist/MonthView.umd.js",
+    "unpkg": "dist/MonthView.umd.js",
     "exports": {
         ".": {
-            "require": "./dist/index.js",
-            "import": "./dist/index.esm.js",
-            "umd": "./dist/index.umd.js"
+            "require": "./dist/MonthView.js",
+            "import": "./dist/MonthView.esm.js",
+            "umd": "./dist/MonthView.umd.js"
         },
         "./package.json": "./package.json"
     },
@@ -63,12 +63,12 @@
                 "theme": {
                     "colors": {
                         "line": "rgb(var(--mv-color-grid-line) / <alpha-value>)",
-                        "sheet": "rgb(var(--mv-color-background) / <alpha-value>)",
-                        "dimmed-text": "rgb(var(--mv-color-dimmed-text) / <alpha-value>)",
-                        "grayed-out": "rgb(var(--mv-color-dimmed-text) / 0.7)",
+                        "sheet": "rgb(var(--mv-color-sheet-background) / <alpha-value>)",
                         "today": "rgb(var(--mv-color-today-circle) / <alpha-value>)",
-                        "light-text": "rgb(var(--mv-color-light-text) / <alpha-value>)",
-                        "normal-text": "rgb(var(--mv-color-normal-text) / <alpha-value>)",
+                        "grayed-out": "rgb(var(--mv-color-grayed-out-text) / 0.7)",
+                        "day": "rgb(var(--mv-color-day-text) / <alpha-value>)",
+                        "light": "rgb(var(--mv-color-light-text) / <alpha-value>)",
+                        "normal": "rgb(var(--mv-color-normal-text) / <alpha-value>)",
                         "event-dot": "rgb(var(--mv-color-event-dot) / <alpha-value>)"
                     },
                     "extend": {
