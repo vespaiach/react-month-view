@@ -75,6 +75,7 @@ export const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(functi
             const dateString = dateToString(start);
             const isToday = dateString === currentDateString;
             const dateEvents = eventsByStartDate[dateString];
+            const copyStartDate = new Date(start);
 
             els.push(
                 <DateComponent
@@ -87,7 +88,7 @@ export const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(functi
                     )}
                     tabIndex={start.getMonth() !== month ? -1 : undefined}
                     key={start.getTime()}
-                    onClick={(evt) => void onClick?.(new Date(start), dateEvents, evt)}>
+                    onClick={(evt) => void onClick?.(copyStartDate, dateEvents, evt)}>
                     {start.getDate() === 1 ? (
                         <div className="text-left">{MONTHS[start.getMonth()]}</div>
                     ) : null}

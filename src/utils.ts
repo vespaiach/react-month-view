@@ -29,7 +29,10 @@ export const MONTHS = [
     'December',
 ];
 export function dateToString(dt: Date): string {
-    return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate())}`;
+    return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(
+        2,
+        '0',
+    )}`;
 }
 export function dateToTime(dt: Date): string {
     const h = dt.getHours();
