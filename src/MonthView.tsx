@@ -111,7 +111,7 @@ export const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(functi
         }
 
         return els;
-    }, [month, year, onClick, currentDateString, eventsByStartDate]);
+    }, [month, year, onClick, currentDateString, eventsByStartDate, DateComponent]);
 
     const computedStyle = useMemo(() => {
         if (!colors || !Object.keys(colors).length) return style;

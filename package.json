@@ -1,6 +1,5 @@
 {
     "name": "month-view",
-    "version": "0.1.0",
     "source": "src/MonthView.tsx",
     "main": "dist/MonthView.js",
     "module": "dist/MonthView.esm.js",
@@ -12,7 +11,9 @@
             "import": "./dist/MonthView.esm.js",
             "umd": "./dist/MonthView.umd.js"
         },
-        "./package.json": "./package.json"
+        "./package.json": "./package.json",
+        "./dist/MonthView.css": "./dist/MonthView.css",
+        "./dist/preflight.css": "./dist/preflight.css"
     },
     "scripts": {
         "clean": "rimraf dist",
