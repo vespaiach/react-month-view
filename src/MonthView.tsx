@@ -1,5 +1,3 @@
-import './month.css';
-
 import React, { useMemo } from 'react';
 
 import { Event as EventType, MonthNum } from './type';

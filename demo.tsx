@@ -1,4 +1,5 @@
-import 'tailwindcss/lib/css/preflight.css';
+import './src/base.css';
+import './src/month.css';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 

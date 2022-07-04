@@ -1,8 +1,7 @@
-@import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@layer base {
+@layer components {
     :root {
         --mv-color-grid-line: 240 240 240;
         --mv-color-sheet-background: 256 256 256;
