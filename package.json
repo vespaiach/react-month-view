@@ -23,7 +23,8 @@
         "lint": "eslint src/**",
         "build:css": "postcss src/*.css -d dist",
         "test": "vitest run",
-        "test:watch": "vitest"
+        "test:watch": "vitest",
+        "np": "npm run build && np"
     },
     "keywords": [
         "calendar",
