@@ -1,7 +1,15 @@
 import React, { useMemo } from 'react';
 
 import { Event as EventType, MonthNum } from './type';
-import { cx, dateToString, dateToTime, DAYS as DEFAULT_DAYS, MONTHS as DEFAULT_MONTHS } from './utils';
+import {
+    cx,
+    dateToString,
+    dateToTime,
+    DAYS,
+    DAYS as DEFAULT_DAYS,
+    MONTHS as DEFAULT_MONTHS,
+    MONTHS,
+} from './utils';
 
 interface MonthViewProps {
     month: MonthNum;
@@ -88,13 +96,13 @@ export const MonthView = React.forwardRef<HTMLDivElement, MonthViewProps>(functi
                     key={start.getTime()}
                     onClick={(evt) => void onClick?.(copyStartDate, dateEvents, evt)}>
                     {start.getDate() === 1 ? (
-                        <div className="text-left">{MONTHS[start.getMonth()]}</div>
+                        <div className="text-left text-sm">{MONTHS[start.getMonth()]}</div>
                     ) : null}
                     {dateEvents?.map((evt, i) => (
                         <p
                             key={i}
                             className={cx(
-                                'w-full relative truncate text-xs text-grayed-out pl-4 before:content-["*"]  before:text-xl before:absolute before:-top-1 before:left-0',
+                                'w-full relative truncate text-xs text-grayed-out pl-4 before:content-["*"]  before:text-xl before:absolute before:-top-1 before:left-0 text-left',
                                 i === 0 ? 'mt-3' : 'mt-1',
                                 start > curr && 'before:text-event-dot',
                             )}>
@@ -185,7 +193,7 @@ export const DateButton = React.forwardRef<HTMLButtonElement, DateComponentProps
             onClick={onClick}
             ref={ref}>
             {standout ? (
-                <div className="w-9 h-9 flex justify-center items-center rounded-full bg-today text-light -mt-2 -ml-2">
+                <div className="w-8 h-8  flex justify-center items-center rounded-full bg-today text-light -mt-2 -ml-2">
                     <span>{date.getDate()}</span>
                 </div>
             ) : (
@@ -195,3 +203,6 @@ export const DateButton = React.forwardRef<HTMLButtonElement, DateComponentProps
         </button>
     );
 });
+
+export const DAY_NAMES = DAYS;
+export const MONTH_NAMES = MONTHS;

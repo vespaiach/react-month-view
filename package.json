@@ -22,7 +22,7 @@
         "build": "npm run clean && microbundle --jsx React.createElement && npm run build:css",
         "lint": "eslint src/**",
         "build:css": "postcss src/*.css -d dist",
-        "test": "vitest run"
+        "test": "vitest"
     },
     "keywords": [
         "calendar",
