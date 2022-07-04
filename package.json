@@ -13,15 +13,15 @@
             "umd": "./dist/MonthView.umd.js"
         },
         "./package.json": "./package.json",
-        "./dist/MonthView.css": "./dist/MonthView.css",
-        "./dist/preflight.css": "./dist/preflight.css"
+        "./dist/month.css": "./dist/month.css",
+        "./dist/base.css": "./dist/base.css"
     },
     "scripts": {
         "clean": "rimraf dist",
         "dev": "vite",
-        "build": "npm run clean && microbundle --jsx React.createElement --css-modules false && npm run preflight",
+        "build": "npm run clean && microbundle --jsx React.createElement && npm run build:css",
         "lint": "eslint src/**",
-        "preflight": "postcss -m --use autoprefixer --use postcss-minify -d dist ./node_modules/tailwindcss/lib/css/preflight.css",
+        "build:css": "postcss src/*.css -d dist",
         "test": "vitest run"
     },
     "keywords": [
@@ -68,36 +68,5 @@
     },
     "bugs": {
         "url": "https://github.com/vespaiach/react-month-view/issues"
-    },
-    "postcss": {
-        "plugins": {
-            "postcss-import": {},
-            "tailwindcss": {
-                "corePlugins": {
-                    "preflight": false
-                },
-                "content": [
-                    "./src/**/*.tsx"
-                ],
-                "theme": {
-                    "colors": {
-                        "line": "rgb(var(--mv-color-grid-line) / <alpha-value>)",
-                        "sheet": "rgb(var(--mv-color-sheet-background) / <alpha-value>)",
-                        "today": "rgb(var(--mv-color-today-circle) / <alpha-value>)",
-                        "grayed-out": "rgb(var(--mv-color-grayed-out-text) / 0.7)",
-                        "day": "rgb(var(--mv-color-day-text) / <alpha-value>)",
-                        "light": "rgb(var(--mv-color-light-text) / <alpha-value>)",
-                        "normal": "rgb(var(--mv-color-normal-text) / <alpha-value>)",
-                        "event-dot": "rgb(var(--mv-color-event-dot) / <alpha-value>)"
-                    },
-                    "extend": {
-                        "fontFamily": {
-                            "inter": "\"Inter\", sans-serif;"
-                        }
-                    }
-                },
-                "plugins": []
-            }
-        }
     }
 }
